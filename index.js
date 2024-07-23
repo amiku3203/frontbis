@@ -205,8 +205,8 @@ app.post('/signin', async (req, res) => {
         } else {
           const newProduct = new  HotamProduct({
             title: req.body.title,
-            // subtitle: req.body.subtitle,
-            // description: req.body.description,
+            subtitle: req.body.subtitle,
+            description: req.body.description,
             photo: req.file.path,
           });
   
