@@ -195,8 +195,9 @@ app.post('/signin', async (req, res) => {
   app.post('/logout', async (req,res)=>{
     return res.status(200).json({ message: 'Logout Successfully ',redirect: '/login' });
   })
- app.post('/addproducthotam', (req, res) => {
-    upload(req, res, (err) => {
+ app.post('/addproducthotam', async  (req, res) => {
+  console.log("req.body", req.body)
+    upload(req, res,async (err) => {
       if(err){
         res.status(400).json({ message: err });
       } else {
@@ -205,18 +206,37 @@ app.post('/signin', async (req, res) => {
         } else {
           const newProduct = new  HotamProduct({
             title: req.body.title,
-            // subtitle: req.body.subtitle,
-            // description: req.body.description,
+            subtitle: req.body.subtitle,
+            description: req.body.description,
             photo: req.file.path,
           });
-  
-          newProduct.save()
+ 
+           await  newProduct.save()
             .then(product => res.status(201).json(product))
             .catch(err => res.status(400).json({ message: 'Error adding product', error: err }));
         }
       }
     });
   });
+// app.post("/addproducthotam", upload.single('photo'), async (req, res) => {
+//   try {
+//     console.log('Request Body:', req.body);
+//     console.log('File:', req.file);
+    
+//     const newProduct = new HotamProduct({
+//       title: req.body.title,
+//       subtitle: req.body.subtitle,
+//       description: req.body.description,
+//       photo: req.file.path,
+//     });
+
+//     await newProduct.save();
+//     res.status(201).json(newProduct);
+//   } catch (error) {
+//     console.error("Error adding product:", error);
+//     res.status(500).json({ message: 'Error adding product', error: error.message });
+//   }
+// });
   app.get("/allhotamproduct", async (req,res)=>{
     try{
 const project = await  HotamProduct.find();
