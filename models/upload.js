@@ -18,6 +18,16 @@ const upload = multer({
   }
 }).single('photo');
 
+const upload1 = multer({
+  storage: storage,
+  limits: { fileSize: 1000000 }, // Limit size to 1MB
+  fileFilter: function (req, file, cb) {
+    checkFileType(file, cb);
+  }
+}).single('logo');
+
+
+
 const uploadMultiple = multer({
   storage: storage,
   limits: { fileSize: 1000000 }, // Limit size to 1MB per file
@@ -39,4 +49,4 @@ function checkFileType(file, cb) {
   }
 }
 
-module.exports = { upload, uploadMultiple };
+module.exports = { upload, uploadMultiple,upload1 };
